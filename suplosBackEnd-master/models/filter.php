@@ -30,7 +30,7 @@ Class Filter
         return $data;
     }
     public function filter($filtercity, $filtertype){
-        $sql = "SELECT direccion,ciudad,telefono,codigo_postal,tipo,precio FROM bienes_disponibles";
+        $sql = "SELECT id,direccion,ciudad,telefono,codigo_postal,tipo,precio FROM bienes_disponibles";
         $sql = $sql." WHERE ciudad = '$filtercity' or tipo = '$filtertype'";
         $data = mysqli_query($this->conexion,$sql);
         return $data;

@@ -53,7 +53,7 @@ if (!isset($_SESSION['usuario'])) {
           </div>
           <div class="filtroCiudad input-field">
             <p><label for="selectCiudad">Ciudad:</label><br></p>
-            <select name="ciudad" id="selectCiudad">
+            <select name="ciudad" id="selectCiudad" onchange="validar()">
               <option value="" selected>Elige una ciudad</option>
               <?php
               while ($row = mysqli_fetch_object($filterCity)) {
@@ -64,11 +64,14 @@ if (!isset($_SESSION['usuario'])) {
               }
               ?>
             </select>
+            <div id="falta-ciudad" style="display: none;">
+              <p style="color: red;">Por favor seleccione una ciudad</p>
+            </div>
           </div>
-          <div class="filtroTipo input-field">
+          <div class="filtroTipo input-field" style="margin-top: 30px;">
             <p><label for="selecTipo">Tipo:</label></p>
             <br>
-            <select name="tipo" id="selectTipo">
+            <select name="tipo" id="selectTipo" onchange="validar()">
               <option value="">Elige un tipo</option>
               <?php
               while ($row = mysqli_fetch_object($filterType)) {
@@ -79,14 +82,30 @@ if (!isset($_SESSION['usuario'])) {
               }
               ?>
             </select>
+            <div id="falta-tipo" style="display: none;">
+              <p style="color: red;">Por favor seleccione un tipo</p>
+            </div>
           </div>
-          <div class="filtroPrecio">
-            <label for="rangoPrecio">Precio:</label>
-            <input type="text" id="rangoPrecio" name="precio" value="" />
+          <div class="botonField" style="margin-top: 40px;">
+            <input type="submit" class="btn white" value="Buscar" id="submitButton" onclick="validar()">
           </div>
-          <div class="botonField">
-            <input type="submit" class="btn white" value="Buscar" id="submitButton">
-          </div>
+          <script>
+            function validar() {
+              var ciudad = document.getElementById('selectCiudad');
+              var tipo = document.getElementById('selectTipo');
+              var boton = document.getElementById('submitButton');
+              var faltaCiudad = document.getElementById('falta-ciudad');
+              var faltaTipo = document.getElementById('falta-tipo');
+
+              if(ciudad.value == "" && tipo.value == ""){
+                faltaCiudad.style.display = "block";
+                faltaTipo.style.display = "block";
+                boton.disabled = true;
+              }else{
+                boton.disabled = false;
+              }
+            }
+          </script>
         </div>
       </form>
     </div>
@@ -94,7 +113,6 @@ if (!isset($_SESSION['usuario'])) {
       <ul>
         <li><a href="#tabs-1">Bienes disponibles</a></li>
         <li><a href="#tabs-2">Mis bienes</a></li>
-        <li><a href="#tabs-3">Reportes</a></li>
       </ul>
       <div id="tabs-1">
         <div class="colContenido" id="divResultadosBusqueda">
@@ -210,14 +228,7 @@ if (!isset($_SESSION['usuario'])) {
         </div>
       </div>
 
-      <div id="tabs-3">
-        <div class="colContenido" id="divResultadosBusqueda">
-          <div class="tituloContenido card" style="justify-content: center;">
-            <h5>Exportar reporte:</h5>
-            <button><a href="reportes.php" style="color: white;">Exportar excel</a></button>
-          </div>
-        </div>
-      </div>
+
     </div>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
